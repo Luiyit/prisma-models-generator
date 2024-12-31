@@ -25,10 +25,16 @@ export default class ModelsGenerator {
 
   run() {
     this.saveTypes();
+    this.saveBasePrismaClient();
     this.saveBaseModel();
     this.saveModels();    
   }
 
+  saveBasePrismaClient(){
+    const basePrismaClient = TemplateHandler.basePrismaClient();
+    this.save(basePrismaClient, 'PrismaClient.ts');
+  }
+  
   saveBaseModel(){
     const baseModelContent = TemplateHandler.baseModel();
     this.save(baseModelContent, 'Model.ts');

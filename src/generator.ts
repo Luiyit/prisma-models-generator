@@ -10,7 +10,6 @@ generatorHandler({
 		}
 	},
 	onGenerate: async (options: GeneratorOptions) => {
-		console.log(options);
 		try {
 			await ModelsGenerator.getInstance(options).run()
 		} catch (e) {

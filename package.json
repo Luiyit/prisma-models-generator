@@ -1,6 +1,6 @@
 {
   "name": "prisma-models-generator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Create models for each entity from prisma.schema",
   "main": "dist/generator.js",
   "bin": {
@@ -41,6 +41,7 @@
     "@prisma/client": "6.0.1",
     "@swc/core": "^1.10.0",
     "@types/node": "^22.10.2",
+    "change-object-case": "^0.2.1",
     "rimraf": "^6.0.1",
     "terser": "^5.37.0",
     "ts-node": "^10.9.2",

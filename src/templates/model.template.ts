@@ -1,7 +1,8 @@
 export const MODEL_TEMPLATE =`
+import PrismaClient from './PrismaClient';
 import { Prisma } from '@prisma/client';
-import Model from './Model';
 import { Pagination } from './types';
+import Model from './Model';
 
 interface #!{MODEL_NAME}Find {
   orderBy?:
@@ -13,7 +14,9 @@ interface #!{MODEL_NAME}Find {
 }
 
 export class #!{CLASS_NAME} extends Model {
-  constructor(public model:#!{PRISMA_DELEGATE}) {
+  constructor(
+    public model:#!{PRISMA_DELEGATE} = PrismaClient.getClient().#!{MODEL_CLIENT_NAME}
+  ) {
     super();
   }
 
@@ -134,5 +137,5 @@ export class #!{CLASS_NAME} extends Model {
     return this.model.deleteMany({ where });
   }
 }
-  
-`
+
+`;
