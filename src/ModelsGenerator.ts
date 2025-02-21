@@ -47,8 +47,15 @@ export default class ModelsGenerator {
 
   saveModels(){
     const { models } = this.options.dmmf.datamodel;
+    
     for (const model of models) {
-      const classContent = TemplateHandler.call(Template.MODEL, model.name);
+
+      const hasRelations = model.fields.some(field => field.relationName !== undefined);
+      const options = {
+        removeIncludes: !hasRelations
+      };
+      
+      const classContent = TemplateHandler.call(Template.MODEL, model.name, options);
       this.save(classContent, `${model.name}.ts`);
     }
   }

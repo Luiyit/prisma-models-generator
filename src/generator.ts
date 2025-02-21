@@ -19,5 +19,3 @@ generatorHandler({
 		}
 	},
 })
-
-console.info('Handler Registered.')

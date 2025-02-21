@@ -14,18 +14,34 @@ const templates: Record<Template, string> = {
   [Template.MODEL]: MODEL_TEMPLATE,
 }
 
+export interface Option{
+  removeIncludes?: boolean;
+}
+
 export default class TemplateHandler {
 
-  static call(template: Template, modelName: any) {
+  static call(template: Template, modelName: any, options: Option = {}) {
     const className = `${modelName}Model`;
     const modelClientName = changeCase.camelCase(modelName);
     const prismaDelegate = `Prisma.${modelName}Delegate`;
 
-    return templates[template]
+    return this.getTemplate(template, options)
       .replace(/#!\{MODEL_NAME\}/g, modelName)
       .replace(/#!\{MODEL_CLIENT_NAME\}/g, modelClientName)
       .replace(/#!\{CLASS_NAME\}/g, className)
       .replace(/#!\{PRISMA_DELEGATE\}/g, prismaDelegate);
+  }
+
+  static getTemplate(templateName: Template, options: Option = {}) {
+    let template = templates[templateName];
+
+    if (options.removeIncludes){
+      template = template
+        .replace(/^\s*include\?:.*\n?/gm, '')
+        .replace(/\(include, /g, '(null, ');
+    }
+
+    return template;
   }
 
   static basePrismaClient() {
