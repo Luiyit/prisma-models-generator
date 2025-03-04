@@ -57,11 +57,14 @@ export default class ModelsGenerator {
       
       const classContent = TemplateHandler.call(Template.MODEL, model.name, options);
       this.save(classContent, `${model.name}.ts`);
+
+      const typesContent = TemplateHandler.call(Template.MODEL_TYPES, model.name);
+      this.save(typesContent, `/types/${model.name}.ts`);
     }
   }
 
   save(content: string, fileName: string) {
-    const {generator } = this.options;
+    const { generator } = this.options;
     const outputDir = parseEnvValue(generator.output!)
     const fullPath = join(outputDir, fileName);
     

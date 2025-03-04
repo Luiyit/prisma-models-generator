@@ -2,6 +2,7 @@ import { BASE_PRISMA_CLIENT_TEMPLATE } from "./templates/basePrismaClient.templa
 import { BASE_MODEL_TEMPLATE } from "./templates/baseModel.template";
 import { MODEL_TEMPLATE } from "./templates/model.template";
 import { BASE_TYPES_TEMPLATE } from "./templates/types.template";
+import { MODEL_TYPES_TEMPLATE } from "./templates/modelTypes.template";
 import { Template } from "./types";
 
 // @ts-ignore
@@ -11,6 +12,7 @@ const templates: Record<Template, string> = {
   [Template.BASE_PRISMA_CLIENT]: BASE_PRISMA_CLIENT_TEMPLATE,
   [Template.BASE_MODEL]: BASE_MODEL_TEMPLATE,
   [Template.BASE_TYPES]: BASE_TYPES_TEMPLATE,
+  [Template.MODEL_TYPES]: MODEL_TYPES_TEMPLATE,
   [Template.MODEL]: MODEL_TEMPLATE,
 }
 
