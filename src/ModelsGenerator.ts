@@ -14,6 +14,26 @@ export default class ModelsGenerator {
     if (ModelsGenerator.instance) {
       throw new Error("Cannot instantiate singleton class directly. Use ModelsGenerator.getInstance().");
     }
+    // Detect Prisma version from generator config or from @prisma/client in user's project
+    this.prismaVersion = this.detectPrismaVersion();
+  }
+
+  prismaVersion: string = '5';
+
+  detectPrismaVersion(): string {
+    // Try to get from generator config
+    const configVersion = this.options.generator.config.prismaVersion;
+    if (configVersion && typeof configVersion === 'string' && configVersion !== 'auto') {
+      return configVersion;
+    }
+    // Try to resolve @prisma/client from project's node_modules
+    try {
+      const projectRoot = process.cwd();
+      const pkg = require(require.resolve('@prisma/client/package.json', { paths: [projectRoot] }));
+      return pkg.version;
+    } catch {
+      return '5'; // fallback
+    }
   }
 
   static getInstance(options: GeneratorOptions) {
@@ -31,34 +51,34 @@ export default class ModelsGenerator {
   }
 
   saveBasePrismaClient(){
-    const basePrismaClient = TemplateHandler.basePrismaClient();
+    const basePrismaClient = TemplateHandler.basePrismaClient(this.prismaVersion);
     this.save(basePrismaClient, 'PrismaClient.ts');
   }
   
   saveBaseModel(){
-    const baseModelContent = TemplateHandler.baseModel();
+    const baseModelContent = TemplateHandler.baseModel(this.prismaVersion);
     this.save(baseModelContent, 'Model.ts');
   }
 
   saveTypes(){
-    const baseTypesContent = TemplateHandler.baseTypes();
+    const baseTypesContent = TemplateHandler.baseTypes(this.prismaVersion);
     this.save(baseTypesContent, 'types.ts');
   }
 
   saveModels(){
     const { models } = this.options.dmmf.datamodel;
-    
     for (const model of models) {
-
       const hasRelations = model.fields.some(field => field.relationName !== undefined);
       const options = {
-        removeIncludes: !hasRelations
+        removeIncludes: !hasRelations,
+        prismaVersion: this.prismaVersion
       };
-      
-      const classContent = TemplateHandler.call(Template.MODEL, model.name, options);
+      // Select template according to version
+      const modelTemplate = this.prismaVersion.startsWith('6') ? Template.MODEL_V6 : Template.MODEL;
+      const modelTypesTemplate = this.prismaVersion.startsWith('6') ? Template.MODEL_TYPES_V6 : Template.MODEL_TYPES;
+      const classContent = TemplateHandler.call(modelTemplate, model.name, options);
       this.save(classContent, `${model.name}.ts`);
-
-      const typesContent = TemplateHandler.call(Template.MODEL_TYPES, model.name);
+      const typesContent = TemplateHandler.call(modelTypesTemplate, model.name, options);
       this.save(typesContent, `/types/${model.name}.ts`);
     }
   }

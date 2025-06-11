@@ -3,6 +3,12 @@ import { BASE_MODEL_TEMPLATE } from "./templates/baseModel.template";
 import { MODEL_TEMPLATE } from "./templates/model.template";
 import { BASE_TYPES_TEMPLATE } from "./templates/types.template";
 import { MODEL_TYPES_TEMPLATE } from "./templates/modelTypes.template";
+// v6 templates
+import { BASE_PRISMA_CLIENT_TEMPLATE_V6 } from "./templates/basePrismaClient.v6.template";
+import { BASE_MODEL_TEMPLATE_V6 } from "./templates/baseModel.v6.template";
+import { MODEL_TEMPLATE_V6 } from "./templates/model.v6.template";
+import { BASE_TYPES_TEMPLATE_V6 } from "./templates/types.v6.template";
+import { MODEL_TYPES_TEMPLATE_V6 } from "./templates/modelTypes.v6.template";
 import { Template } from "./types";
 
 // @ts-ignore
@@ -14,10 +20,17 @@ const templates: Record<Template, string> = {
   [Template.BASE_TYPES]: BASE_TYPES_TEMPLATE,
   [Template.MODEL_TYPES]: MODEL_TYPES_TEMPLATE,
   [Template.MODEL]: MODEL_TEMPLATE,
+  // v6
+  [Template.BASE_PRISMA_CLIENT_V6]: BASE_PRISMA_CLIENT_TEMPLATE_V6,
+  [Template.BASE_MODEL_V6]: BASE_MODEL_TEMPLATE_V6,
+  [Template.BASE_TYPES_V6]: BASE_TYPES_TEMPLATE_V6,
+  [Template.MODEL_TYPES_V6]: MODEL_TYPES_TEMPLATE_V6,
+  [Template.MODEL_V6]: MODEL_TEMPLATE_V6,
 }
 
 export interface Option{
   removeIncludes?: boolean;
+  prismaVersion?: string;
 }
 
 export default class TemplateHandler {
@@ -36,25 +49,33 @@ export default class TemplateHandler {
 
   static getTemplate(templateName: Template, options: Option = {}) {
     let template = templates[templateName];
-
+    if (!template) throw new Error(`Template not found: ${templateName}`);
     if (options.removeIncludes){
       template = template
         .replace(/^\s*include\?:.*\n?/gm, '')
         .replace(/\(include, /g, '(null, ');
     }
-
     return template;
   }
 
-  static basePrismaClient() {
+  static basePrismaClient(prismaVersion?: string) {
+    if (prismaVersion && prismaVersion.startsWith('6')) {
+      return templates[Template.BASE_PRISMA_CLIENT_V6];
+    }
     return templates[Template.BASE_PRISMA_CLIENT];
   }
   
-  static baseModel() {
+  static baseModel(prismaVersion?: string) {
+    if (prismaVersion && prismaVersion.startsWith('6')) {
+      return templates[Template.BASE_MODEL_V6];
+    }
     return templates[Template.BASE_MODEL];
   }
   
-  static baseTypes() {
+  static baseTypes(prismaVersion?: string) {
+    if (prismaVersion && prismaVersion.startsWith('6')) {
+      return templates[Template.BASE_TYPES_V6];
+    }
     return templates[Template.BASE_TYPES];
   }
 }
