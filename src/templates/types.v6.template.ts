@@ -16,4 +16,5 @@ export interface Sort<ByData = string> {
   sortBy: ByData;
   sortDirection: SortDirection;
 }
+  
 `;

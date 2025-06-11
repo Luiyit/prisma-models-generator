@@ -93,6 +93,6 @@ export default class ModelsGenerator {
       fs.mkdirSync(dirname, { recursive: true })
     }
     
-    fs.writeFileSync(fullPath, content.trim());
+    fs.writeFileSync(fullPath, content.trim() + '\n');
   }
 }

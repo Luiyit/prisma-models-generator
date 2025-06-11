@@ -5,4 +5,5 @@ type New#!{MODEL_NAME} = Prisma.#!{MODEL_NAME}CreateInput;
 type update#!{MODEL_NAME} = Prisma.#!{MODEL_NAME}UpdateInput;
 
 export { type #!{MODEL_NAME}, type New#!{MODEL_NAME}, type update#!{MODEL_NAME} };
+
 `;

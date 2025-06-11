@@ -5,4 +5,5 @@ type New#!{MODEL_NAME} = Prisma.#!{MODEL_NAME}CreateArgs['data'];
 type update#!{MODEL_NAME} = Prisma.#!{MODEL_NAME}UpdateArgs['data'];
 
 export { type #!{MODEL_NAME}, type New#!{MODEL_NAME}, type update#!{MODEL_NAME} };
+
 `;

@@ -23,4 +23,5 @@ export default class PrismaClient {
     return this.getInstance().client;
   }
 }
+  
 `;

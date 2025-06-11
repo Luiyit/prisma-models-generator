@@ -15,7 +15,7 @@ interface #!{MODEL_NAME}Find {
 
 export class #!{CLASS_NAME} extends Model {
   constructor(
-    public model:#!{PRISMA_DELEGATE} = PrismaClient.getClient().#!{MODEL_CLIENT_NAME}
+    public model: #!{PRISMA_DELEGATE} = PrismaClient.getClient().#!{MODEL_CLIENT_NAME},
   ) {
     super();
   }
@@ -93,7 +93,9 @@ export class #!{CLASS_NAME} extends Model {
     return this.model.create(args);
   }
 
-  createMany(data: Prisma.#!{MODEL_NAME}CreateManyInput | Prisma.#!{MODEL_NAME}CreateManyInput[]) {
+  createMany(
+    data: Prisma.#!{MODEL_NAME}CreateManyInput | Prisma.#!{MODEL_NAME}CreateManyInput[],
+  ) {
     return this.model.createMany({ data });
   }
 
