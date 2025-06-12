@@ -15,12 +15,13 @@ import { Template } from "./types";
 import changeCase from 'change-object-case';
 
 const templates: Record<Template, string> = {
+  // v5 templates
   [Template.BASE_PRISMA_CLIENT]: BASE_PRISMA_CLIENT_TEMPLATE,
   [Template.BASE_MODEL]: BASE_MODEL_TEMPLATE,
   [Template.BASE_TYPES]: BASE_TYPES_TEMPLATE,
   [Template.MODEL_TYPES]: MODEL_TYPES_TEMPLATE,
   [Template.MODEL]: MODEL_TEMPLATE,
-  // v6
+  // v6 templates
   [Template.BASE_PRISMA_CLIENT_V6]: BASE_PRISMA_CLIENT_TEMPLATE_V6,
   [Template.BASE_MODEL_V6]: BASE_MODEL_TEMPLATE_V6,
   [Template.BASE_TYPES_V6]: BASE_TYPES_TEMPLATE_V6,

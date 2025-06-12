@@ -1,6 +1,6 @@
 import { GeneratorOptions } from "@prisma/generator-helper";
 import TemplateHandler from "./TemplateHandler";
-import { Template } from "./types";
+import { VersionTemplates, SupportedVersion } from "./types";
 import path, { join } from "path";
 import { parseEnvValue } from "@prisma/internals";
 import fs from "fs";
@@ -9,31 +9,23 @@ export const GENERATOR_NAME = 'Prisma Models Generator'
 
 export default class ModelsGenerator {
   static instance: ModelsGenerator;
+  prismaVersion: string = '6.0.0';
+  versionIndex: SupportedVersion = 'V6';
 
   constructor(private options: GeneratorOptions) {
     if (ModelsGenerator.instance) {
       throw new Error("Cannot instantiate singleton class directly. Use ModelsGenerator.getInstance().");
     }
-    // Detect Prisma version from generator config or from @prisma/client in user's project
-    this.prismaVersion = this.detectPrismaVersion();
+    this.setPrismaVersion();
   }
 
-  prismaVersion: string = '5';
-
-  detectPrismaVersion(): string {
-    // Try to get from generator config
+  setPrismaVersion(): void {
     const configVersion = this.options.generator.config.prismaVersion;
     if (configVersion && typeof configVersion === 'string' && configVersion !== 'auto') {
-      return configVersion;
+      this.prismaVersion = configVersion;
     }
-    // Try to resolve @prisma/client from project's node_modules
-    try {
-      const projectRoot = process.cwd();
-      const pkg = require(require.resolve('@prisma/client/package.json', { paths: [projectRoot] }));
-      return pkg.version;
-    } catch {
-      return '5'; // fallback
-    }
+
+    this.versionIndex = this.prismaVersion.startsWith('5') ? 'V5' : 'V6';
   }
 
   static getInstance(options: GeneratorOptions) {
@@ -67,15 +59,16 @@ export default class ModelsGenerator {
 
   saveModels(){
     const { models } = this.options.dmmf.datamodel;
+    const templatesKeys = VersionTemplates[this.versionIndex];
     for (const model of models) {
       const hasRelations = model.fields.some(field => field.relationName !== undefined);
       const options = {
         removeIncludes: !hasRelations,
         prismaVersion: this.prismaVersion
       };
-      // Select template according to version
-      const modelTemplate = this.prismaVersion.startsWith('6') ? Template.MODEL_V6 : Template.MODEL;
-      const modelTypesTemplate = this.prismaVersion.startsWith('6') ? Template.MODEL_TYPES_V6 : Template.MODEL_TYPES;
+      // Select template according to versionIndex
+      const modelTemplate = templatesKeys.MODEL;
+      const modelTypesTemplate = templatesKeys.MODEL_TYPES;
       const classContent = TemplateHandler.call(modelTemplate, model.name, options);
       this.save(classContent, `${model.name}.ts`);
       const typesContent = TemplateHandler.call(modelTypesTemplate, model.name, options);
