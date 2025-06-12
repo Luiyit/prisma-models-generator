@@ -9,7 +9,7 @@ export const GENERATOR_NAME = 'Prisma Models Generator'
 
 export default class ModelsGenerator {
   static instance: ModelsGenerator;
-  prismaVersion: string = '6.0.0';
+  prismaVersion: string = '5.0.0';
   versionIndex: SupportedVersion = 'V6';
 
   constructor(private options: GeneratorOptions) {
@@ -25,7 +25,7 @@ export default class ModelsGenerator {
       this.prismaVersion = configVersion;
     }
 
-    this.versionIndex = this.prismaVersion.startsWith('5') ? 'V5' : 'V6';
+    this.versionIndex = this.prismaVersion.startsWith('6') ? 'V6' : 'V5';
   }
 
   static getInstance(options: GeneratorOptions) {
