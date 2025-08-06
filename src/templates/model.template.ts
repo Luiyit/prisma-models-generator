@@ -122,6 +122,55 @@ export class #!{CLASS_NAME} extends Model {
     return this.model.updateMany(args);
   }
 
+  findOrCreate(
+    where: Prisma.#!{MODEL_NAME}WhereUniqueInput,
+    createData: Prisma.#!{MODEL_NAME}CreateInput,
+    include?: Prisma.#!{MODEL_NAME}UpsertArgs['include'],
+    select?: Prisma.#!{MODEL_NAME}UpsertArgs['select'],
+  ) {
+    const args: Prisma.#!{MODEL_NAME}UpsertArgs = {
+      where,
+      create: createData,
+      update: {},
+      ...this.chooseSelectOrInclude(include, select),
+    };
+
+    return this.model.upsert(args);
+  }
+
+  findOrUpdate(
+    where: Prisma.#!{MODEL_NAME}WhereUniqueInput,
+    updateData: Prisma.#!{MODEL_NAME}UpdateInput,
+    include?: Prisma.#!{MODEL_NAME}UpsertArgs['include'],
+    select?: Prisma.#!{MODEL_NAME}UpsertArgs['select'],
+  ) {
+    const args: Prisma.#!{MODEL_NAME}UpsertArgs = {
+      where,
+      create: {},
+      update: updateData,
+      ...this.chooseSelectOrInclude(include, select),
+    };
+
+    return this.model.upsert(args);
+  }
+
+  upsert(
+    where: Prisma.#!{MODEL_NAME}WhereUniqueInput,
+    createData: Prisma.#!{MODEL_NAME}CreateInput,
+    updateData: Prisma.#!{MODEL_NAME}UpdateInput,
+    include?: Prisma.#!{MODEL_NAME}UpsertArgs['include'],
+    select?: Prisma.#!{MODEL_NAME}UpsertArgs['select'],
+  ) {
+    const args: Prisma.#!{MODEL_NAME}UpsertArgs = {
+      where,
+      create: createData,
+      update: updateData,
+      ...this.chooseSelectOrInclude(include, select),
+    };
+
+    return this.model.upsert(args);
+  }
+
   delete(
     where: Prisma.#!{MODEL_NAME}DeleteArgs['where'],
     include?: Prisma.#!{MODEL_NAME}DeleteArgs['include'],
