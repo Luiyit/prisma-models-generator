@@ -127,39 +127,7 @@ export class #!{CLASS_NAME} extends Model {
     return this.model.updateMany(args);
   }
 
-  findOrCreate(
-    where: Prisma.#!{MODEL_NAME}WhereUniqueInput,
-    createData: Prisma.#!{MODEL_NAME}CreateInput,
-    select?: Prisma.#!{MODEL_NAME}Select | null,
-    omit?: Prisma.#!{MODEL_NAME}Omit | null,
-  ) {
-    const args: Prisma.#!{MODEL_NAME}UpsertArgs = {
-      where,
-      create: createData,
-      update: {},
-      ...(select ? { select } : {}),
-      ...(omit ? { omit } : {}),
-    };
 
-    return this.model.upsert(args);
-  }
-
-  findOrUpdate(
-    where: Prisma.#!{MODEL_NAME}WhereUniqueInput,
-    updateData: Prisma.#!{MODEL_NAME}UpdateInput,
-    select?: Prisma.#!{MODEL_NAME}Select | null,
-    omit?: Prisma.#!{MODEL_NAME}Omit | null,
-  ) {
-    const args: Prisma.#!{MODEL_NAME}UpsertArgs = {
-      where,
-      create: {},
-      update: updateData,
-      ...(select ? { select } : {}),
-      ...(omit ? { omit } : {}),
-    };
-
-    return this.model.upsert(args);
-  }
 
   upsert(
     where: Prisma.#!{MODEL_NAME}WhereUniqueInput,
