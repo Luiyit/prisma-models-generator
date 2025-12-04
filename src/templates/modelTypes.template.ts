@@ -4,13 +4,15 @@ import { Prisma, #!{MODEL_NAME} } from "@prisma/client";
 type New#!{MODEL_NAME} = Prisma.#!{MODEL_NAME}CreateArgs["data"];
 type update#!{MODEL_NAME} = Prisma.#!{MODEL_NAME}UpdateArgs["data"];
 type FindFirst#!{MODEL_NAME} = Prisma.#!{MODEL_NAME}FindFirstArgs["where"];
+type FindUnique#!{MODEL_NAME} = Prisma.#!{MODEL_NAME}FindUniqueArgs["where"];
 type FindMany#!{MODEL_NAME} = Prisma.#!{MODEL_NAME}FindManyArgs["where"];
 
 export { 
-  type #!{MODEL_NAME}, 
-  type New#!{MODEL_NAME}, 
-  type update#!{MODEL_NAME}, 
-  type FindFirst#!{MODEL_NAME}, 
+  type #!{MODEL_NAME},
+  type New#!{MODEL_NAME},
+  type update#!{MODEL_NAME},
+  type FindFirst#!{MODEL_NAME},
+  type FindUnique#!{MODEL_NAME},
   type FindMany#!{MODEL_NAME},
 };
 
