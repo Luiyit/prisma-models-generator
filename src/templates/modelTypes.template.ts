@@ -7,7 +7,7 @@ type FindFirst#!{MODEL_NAME} = Prisma.#!{MODEL_NAME}FindFirstArgs["where"];
 type FindUnique#!{MODEL_NAME} = Prisma.#!{MODEL_NAME}FindUniqueArgs["where"];
 type FindMany#!{MODEL_NAME} = Prisma.#!{MODEL_NAME}FindManyArgs["where"];
 
-export { 
+export {
   type #!{MODEL_NAME},
   type New#!{MODEL_NAME},
   type update#!{MODEL_NAME},

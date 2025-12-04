@@ -2,8 +2,8 @@ export const BASE_MODEL_TEMPLATE =`
 import { Pagination } from './types';
 
 export default class Model {
-  public MIN_TAKE_VALUE: number = 12;
-  public MAX_TAKE_VALUE: number = 50;
+  public MIN_TAKE_VALUE: number = 1;
+  public MAX_TAKE_VALUE: number = 1000;
 
   protected chooseSelectOrInclude<IncludeType, SelectType>(
     include: IncludeType,
