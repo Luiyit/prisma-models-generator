@@ -1,6 +1,6 @@
 {
   "name": "prisma-models-generator",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Create models for each entity from prisma.schema",
   "main": "dist/generator.js",
   "bin": {
