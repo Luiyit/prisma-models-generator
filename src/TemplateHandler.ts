@@ -11,9 +11,6 @@ import { BASE_TYPES_TEMPLATE_V6 } from "./templates/types.v6.template";
 import { MODEL_TYPES_TEMPLATE_V6 } from "./templates/modelTypes.v6.template";
 import { Template } from "./types";
 
-// @ts-ignore
-import changeCase from 'change-object-case';
-
 const templates: Record<Template, string> = {
   // v5 templates
   [Template.BASE_PRISMA_CLIENT]: BASE_PRISMA_CLIENT_TEMPLATE,
@@ -38,12 +35,11 @@ export default class TemplateHandler {
 
   static call(template: Template, modelName: any, options: Option = {}) {
     const className = `${modelName}Model`;
-    const modelClientName = changeCase.camelCase(modelName);
     const prismaDelegate = `Prisma.${modelName}Delegate`;
 
     return this.getTemplate(template, options)
       .replace(/#!\{MODEL_NAME\}/g, modelName)
-      .replace(/#!\{MODEL_CLIENT_NAME\}/g, modelClientName)
+      .replace(/#!\{MODEL_CLIENT_NAME\}/g, modelName)
       .replace(/#!\{CLASS_NAME\}/g, className)
       .replace(/#!\{PRISMA_DELEGATE\}/g, prismaDelegate);
   }

@@ -21,7 +21,7 @@
     "teaser": "node teaser.js",
     "build": "yarn removeDist && tsc",
     "publish": "npm publish",
-    "buildPublish": "yarn build && yarn publish",
+    "buildPublish": "yarn build && npm publish",
     "buildPublishTeaser": "yarn build && yarn publish && yarn teaser",
     "cleanCache": "yarn cache clean && npm cache clean --force"
   },

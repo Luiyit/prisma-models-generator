@@ -5,6 +5,9 @@ import path, { join } from "path";
 import { parseEnvValue } from "@prisma/internals";
 import fs from "fs";
 
+// @ts-ignore
+import changeCase from 'change-object-case';
+
 export const GENERATOR_NAME = 'Prisma Models Generator'
 
 export default class ModelsGenerator {
@@ -70,9 +73,11 @@ export default class ModelsGenerator {
       const modelTemplate = templatesKeys.MODEL;
       const modelTypesTemplate = templatesKeys.MODEL_TYPES;
       const classContent = TemplateHandler.call(modelTemplate, model.name, options);
-      this.save(classContent, `${model.name}.ts`);
+      
+      const fileName = changeCase.pascalCase(model.name);
+      this.save(classContent, `${fileName}.ts`);
       const typesContent = TemplateHandler.call(modelTypesTemplate, model.name, options);
-      this.save(typesContent, `/types/${model.name}.ts`);
+      this.save(typesContent, `/types/${fileName}.ts`);
     }
   }
 
