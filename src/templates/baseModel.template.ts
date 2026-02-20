@@ -1,5 +1,5 @@
 export const BASE_MODEL_TEMPLATE =`
-import { Pagination } from './types';
+import { Pagination } from "./types";
 
 export default class Model {
   public MIN_TAKE_VALUE: number = 1;
@@ -10,7 +10,7 @@ export default class Model {
     select: SelectType,
   ) {
     if (include && select)
-      throw new Error('You can not use include and select at the same time');
+      throw new Error("You can not use include and select at the same time");
 
     return (include && { include }) || { select };
   }
